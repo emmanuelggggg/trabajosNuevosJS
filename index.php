@@ -21,7 +21,10 @@
         var ctx  = null;
         var superX=240,superY=240;
         var player=null
+        var  player2 = null;
         var direction='right';
+        var score=0;
+        var speed =10;
 
         function start(){
 
@@ -29,6 +32,8 @@
              ctx  = cv.getContext('2d');
 
             player =new Cuadraro(superX,superY,40,40,'red');
+            player2 =new Cuadraro(generateRandomIntegerInRange(500),
+            generateRandomIntegerInRange(100),40,40,'red');
 
              paint();
         }
@@ -66,6 +71,11 @@
             
             player.c=rbgaRand();
             player.dibujar(ctx);
+
+            player2.dibujar(ctx);
+
+            ctx.fillStyle='black';
+            ctx.fillText("Score ::"+score,20,20)
             // ctx.fillRect(superX,superY,40,40);
             // ctx.strokeRect(superX,superY,40,40);
 
@@ -97,19 +107,37 @@
                     player.y = 500;
                 }
             }
+            if(player.se_tocan(player2)){
+
+                player2.x=generateRandomIntegerInRange(500);
+                player2.y=generateRandomIntegerInRange(500);
+
+                score += 5;
+               
+            }
         }
-        function Cuadraro(x,y,w,n,c){
+        function Cuadraro(x,y,w,h,c){
             this.x = x;
             this.y = y;
             this.w = w;
-            this.n = n;
+            this.h = h;
             this.c = c;
 
             this.dibujar = function(ctx){
                 ctx.fillStyle=this.c;
-                ctx.fillRect(this.x,this.y,this.w,this.n);
-                ctx.strokeRect(this.x,this.y,this.w,this.n);
+                ctx.fillRect(this.x,this.y,this.w,this.h);
+                ctx.strokeRect(this.x,this.y,this.w,this.h);
             }
+            this.se_tocan = function (target) { 
+                if(this.x < target.x + target.w &&
+                    this.x + this.w > target.x && 
+                    this.y < target.y + target.h && 
+                    this.y + this.h > target.y) {
+
+                     return true;  
+                }  
+
+            };
         }
         window.addEventListener('load',start)
         window.requestAnimationFrame = (function () {
@@ -126,6 +154,10 @@
             var o = Math.round, r = Math.random, s = 255;
             return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
         }
-    </script>
+        // Generate a random number between 2 and 10, including both 2 and 10
+        function generateRandomIntegerInRange( max) {
+            return Math.floor(Math.random() * (max  + 1));
+        }
+</script>
 </body>
 </html>
