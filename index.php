@@ -37,27 +37,26 @@
         // var press =false;    
 
 
-        // document.addEventListener('keydown',function(e){
-        //     // console.log(e);
-        //     //arriba
-        //     if(e.keyCode == 87 || e.keyCode == 38){
-        //         superY-=25;
+        document.addEventListener('keydown',function(e){
+            // console.log(e);
+            //arriba
+            if(e.keyCode == 87 || e.keyCode == 38){
+                direction='up';
 
-        //     }
-        //     // abajo
-        //     if(e.keyCode == 83 || e.keyCode == 40){
-        //         superY +=25;
-        //     }
-        //     // derecha
-        //     if(e.keyCode == 65 || e.keyCode == 37){
-        //         superX -=25;
-        //     }
-        //     //abajo
-        //     if(e.keyCode == 68 || e.keyCode == 39){
-        //         superX +=25;
-        //     }
-        //     paint();
-        // })
+            }
+            // abajo
+            if(e.keyCode == 83 || e.keyCode == 40){
+              direction='down';
+            }
+            // derecha
+            if(e.keyCode == 65 || e.keyCode == 37){
+                direction='right';
+            }
+            //abajo
+            if(e.keyCode == 68 || e.keyCode == 39){
+                direction='left';
+            }
+        })
         function paint(){
 
             window.requestAnimationFrame(paint);
