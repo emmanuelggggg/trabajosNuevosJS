@@ -25,6 +25,7 @@
         var direction='right';
         var score=0;
         var speed =10;
+        var pausa= false;
 
         function start(){
 
@@ -61,6 +62,11 @@
             if(e.keyCode == 68 || e.keyCode == 39){
                 direction='left';
             }
+            if(e.keyCode == 32){
+                pausa =(pausa)? false : true;
+            }
+
+             
         })
         function paint(){
 
@@ -78,8 +84,16 @@
             ctx.fillText("Score ::"+score,20,20)
             // ctx.fillRect(superX,superY,40,40);
             // ctx.strokeRect(superX,superY,40,40);
+            if(!pausa){
+                update();
+            }else{
+                ctx.fillStyle='rgb(0,0,0,0.5)';
+                ctx.fillRect(0,0,500,500);
 
-            update();
+                ctx.fillStyle='white';
+                ctx.fillText("P A U  S E",230,230);
+                
+            }
         }
         function update(){
             
@@ -115,6 +129,8 @@
                 score += 5;
                
             }
+
+            
         }
         function Cuadraro(x,y,w,h,c){
             this.x = x;
