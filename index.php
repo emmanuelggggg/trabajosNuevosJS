@@ -24,9 +24,9 @@
         var  player2 = null;
         var direction='right';
         var score=0;
-        var speed =10;
+        var speed =3;
         var pausa= false;
-
+        var obstaculos = new Array(3);
         function start(){
 
              cv  =document.getElementById('mycanvas');
@@ -36,11 +36,13 @@
             player2 =new Cuadraro(generateRandomIntegerInRange(500),
             generateRandomIntegerInRange(100),40,40,'red');
 
+            obstaculos[0]= new Cuadraro(100,50,120,30);
+            obstaculos[1]= new Cuadraro(50,300,30,120);
+            obstaculos[2]= new Cuadraro(400,200,30,120);
+            
              paint();
         }
-        // var color='red';
-        // var fig='arc';
-        // var press =false;    
+        
 
 
         document.addEventListener('keydown',function(e){
@@ -56,11 +58,11 @@
             }
             // derecha
             if(e.keyCode == 65 || e.keyCode == 37){
-                direction='right';
+               direction='left';
             }
             //abajo
             if(e.keyCode == 68 || e.keyCode == 39){
-                direction='left';
+                 direction='right';
             }
             if(e.keyCode == 32){
                 pausa =(pausa)? false : true;
@@ -81,7 +83,8 @@
             player2.dibujar(ctx);
 
             ctx.fillStyle='black';
-            ctx.fillText("Score ::"+score,20,20)
+            ctx.font ="15px Arial"
+            ctx.fillText("Score :"+score+"  Speed :"+speed,20,20)
             // ctx.fillRect(superX,superY,40,40);
             // ctx.strokeRect(superX,superY,40,40);
             if(!pausa){
@@ -91,46 +94,65 @@
                 ctx.fillRect(0,0,500,500);
 
                 ctx.fillStyle='white';
-                ctx.fillText("P A U  S E",230,230);
+                ctx.font ="30px Arial"
+                ctx.fillText("P A U S E",230,230);
                 
             }
+            ctx.fillStyle='#319DA0';
+            for(var i=0;i<obstaculos.length;i++){
+                obstaculos[i].dibujar(ctx);
+            }
+            
+            
+            
         }
         function update(){
             
             if(direction == 'right'){
-                 player.x +=10;
+                 player.x +=speed
                 if(player.x >= 500){
                     player.x = 0;
                 }
             }
             if(direction == 'left'){
-                 player.x -=10;
+                 player.x -=speed;
                 if(player.x < 0){
                     player.x = 50;
                 }
             }
             if(direction == 'down'){
-                player.y +=10;
+                player.y +=speed;
                  if(player.y >= 500){
                     player.y = 0;
                 }
             }
             if(direction == 'up'){
-                player.y -=10;
+                player.y -=speed;
                  if(player.y <0){
                     player.y = 500;
                 }
             }
-            if(player.se_tocan(player2)){
-
-                player2.x=generateRandomIntegerInRange(500);
-                player2.y=generateRandomIntegerInRange(500);
-
-                score += 5;
-               
-            }
-
+          
+           
+                
+                if(player.se_tocan(obstaculos[0]) || player.se_tocan(obstaculos[1]) 
+                    || player.se_tocan(obstaculos[2])){
+                    speed =0.1;
+                    
+                }else{
+                    if(player.se_tocan(player2)){
+    
+                        player2.x=generateRandomIntegerInRange(500);
+                        player2.y=generateRandomIntegerInRange(500);
+    
+                        score += 5;
+                        speed +=0.3;
+    
+                    }
+                }
             
+            
+              
         }
         function Cuadraro(x,y,w,h,c){
             this.x = x;
@@ -154,6 +176,7 @@
                 }  
 
             };
+            
         }
         window.addEventListener('load',start)
         window.requestAnimationFrame = (function () {
